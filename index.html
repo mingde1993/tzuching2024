@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Voting</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .color-button {
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+        .color-button:hover {
+            transform: scale(1.1);
+        }
+        .back-button {
+            display: none;
+            position: absolute;
+            top: 10px;
+            font-size: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #555;
+            color: white;
+            border-radius: 15px;
+            border: none;
+        }
+        @media (max-width: 768px) {
+            .color-button {
+                width: 100%; /* Full width for mobile view */
+                height: auto; /* Adjust height to maintain aspect ratio */
+                margin: 2%;
+            }
+        }
+        @media (max-width: 480px) {
+            .color-button {
+                width: 100%; /* Full width for mobile view */
+                height: auto; /* Adjust height to maintain aspect ratio */
+                font-size: 18px;
+                margin: 1%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="resetDisplay()">Back</button>
+
+    <script>
+        // Array of button objects
+        // Each object should have the following properties:
+        // - text: The text to display on the button
+        // - color: The background color of the button (in hex format)
+        // - displayText: The text to display on the button
+        const buttons = [
+            { text: 'Red', color: '#FF4C4C', displayText: 'Red' }, // Vibrant Red
+            { text: 'Yellow', color: '#FFD700', displayText: 'Yellow' }, // Youthful Yellow
+            { text: 'Green', color: '#32CD32', displayText: 'Green' }, // Lime Green
+            { text: 'Blue', color: '#1E90FF', displayText: 'Blue' }, // Dodger Blue
+            // { text: 'Purple', color: '#9370DB', displayText: 'Purple' }, // Medium Purple
+            // { text: 'Orange', color: '#FFA07A', displayText: 'Orange' }, // Light Salmon
+            // { text: 'Pink', color: '#FF69B4', displayText: 'Pink' }, // Hot Pink
+            // { text: 'Brown', color: '#D2691E', displayText: 'Brown' } // Chocolate
+        ];
+
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
+            document.querySelectorAll('.color-button').forEach(button => button.style.display = 'none');
+            document.querySelector('.back-button').style.display = 'block';
+        }
+
+        function resetDisplay() {
+            document.body.style.backgroundColor = '';
+            document.querySelectorAll('.color-button').forEach(button => button.style.display = 'flex');
+            document.querySelector('.back-button').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('body');
+            const buttonCount = buttons.length;
+            const rows = Math.ceil(Math.sqrt(buttonCount));
+            const cols = Math.ceil(buttonCount / rows);
+            const buttonWidth = 100 / cols - 2; // Subtracting for margin
+            const buttonHeight = 100 / rows - 2; // Subtracting for margin
+
+            buttons.forEach(({ text, color, displayText }) => {
+                const button = document.createElement('button');
+                button.className = 'color-button';
+                button.style.backgroundColor = color;
+                button.style.width = `${buttonWidth}vw`;
+                button.style.height = `${buttonHeight}vh`;
+                button.textContent = displayText;
+                button.onclick = () => changeColor(color);
+                container.appendChild(button);
+            });
+        });
+    </script>
+</body>
+</html>
